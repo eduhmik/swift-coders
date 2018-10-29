@@ -5,9 +5,8 @@ from psycopg2.extras import RealDictCursor
 '''class model for our comments'''
 class Comment():
 
-    def __init__(self, message, created_at=datetime.now(), created_by=None):
+    def __init__(self, message, created_by=None):
         self.message = message
-        self.created_at = created_at
         self.created_by = created_by
 
     def insert(self, message):
@@ -16,14 +15,13 @@ class Comment():
 
         '''insert comment into database'''
         query = """
-                INSERT INTO comments(message, created_at, created_by)
-                VALUES(%s, %s, %s) Returning comments_id
+                INSERT INTO comments(message, created_by)
+                VALUES(%s, %s) Returning comments_id
                 """
         conn = psycopg2.connect(self)
         cur = conn.cursor(cursor_factory=RealDictCursor)
         cur.execute(query,(
             self.message,
-            self.created_at,
             self.created_by
         ))
         conn.commit()
