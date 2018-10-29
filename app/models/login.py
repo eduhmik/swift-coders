@@ -1,7 +1,9 @@
-import click
+import click, sys
+from models.comments import Comment
+
 
 @click.command()
-def login(username, password):
+def login():
 
     username = input("Enter Username")
     password = input("Enter Your password")
@@ -12,8 +14,12 @@ def login(username, password):
     if not user:
         return "user not found"
     if user['password'] == password:
-        pass
-    return "invalid password"
+        print("Log in successful")
+        message = input("Enter Your Comment")
+        comment = comment(message, username)
+        comment.insert()
+    click.echo("invalid password")
+    sys.exit()
 
 @click.group()
 def cli():
@@ -21,3 +27,6 @@ def cli():
 
 cli.add_command(login)
 
+
+if __name__ == "__main__":
+    cli()
