@@ -24,7 +24,7 @@ class DbSetup():
             email VARCHAR,
             role VARCHAR,
             password VARCHAR,
-            created_on timestamp
+            created_on timestamp with time zone DEFAULT ('now'::text)::date NOT NULL
         )
         """
         query2="""
@@ -32,7 +32,7 @@ class DbSetup():
             id serial PRIMARY KEY,
             message VARCHAR,
             created_by VARCHAR,
-            created_at timestamp
+            created_at timestamp with time zone DEFAULT ('now'::text)::date NOT NULL
         )
         """
         queries=[query1,query2]
